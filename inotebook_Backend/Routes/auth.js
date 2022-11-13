@@ -2,8 +2,10 @@ const express = require('express')
 const Users = require('../modules/User')
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
 const router = express.Router()
 
+// creating a user using post localhost:5000/api/auth/createuser. Sign in
 router.post('/createuser',
 
     // validator syntax 
@@ -42,17 +44,23 @@ router.post('/createuser',
                 email: req.body.email,
                 password: hashPass,
             })
-            res.json(users);
+
+            // providing a token for better security 
+            const data = {
+                user: {
+                    id: users.id
+                }
+            }
+            const sign = "lokesh"
+            const token = jmt.sign(data,sign);
+            res.json(token);
+
+            // res.json(users);
 
         } catch (error) {
             console.error(error.message)
             res.status(500).send("some error occur")
         }
-        // .then(user => res.json(user)).
-        // catch(err=>{
-        //     console.log(err)
-        //     res.json({error:'please enter valid inputs'})
-        // });
 
     }
 )
