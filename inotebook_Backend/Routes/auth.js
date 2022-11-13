@@ -1,6 +1,7 @@
 const express = require('express')
 const Users = require('../modules/User')
 const { body, validationResult } = require('express-validator');
+const bcrypt = require('bcrypt');
 const router = express.Router()
 
 router.post('/createuser',
@@ -30,12 +31,19 @@ router.post('/createuser',
                 return res.status(400).json({ err: "Sorry a user with this email already exits" })
             }
 
+            // hashing the passsword to avoid hackers 
+            const salt = await bcrypt.genSalt(10);
+            const hashPass = await bcrypt.hash(req.body.password, salt);
+            console.log(hashPass);
+
             // creating users document/row or data 
             users = await Users.create({
                 name: req.body.name,
                 email: req.body.email,
-                password: req.body.password,
+                password: hashPass,
             })
+            res.json(users);
+
         } catch (error) {
             console.error(error.message)
             res.status(500).send("some error occur")
@@ -45,7 +53,6 @@ router.post('/createuser',
         //     console.log(err)
         //     res.json({error:'please enter valid inputs'})
         // });
-        res.json(users);
 
     }
 )
