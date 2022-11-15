@@ -11,8 +11,6 @@ const JWT_SECRET = "lokesh"; // it should not be in the code either in some conf
 
 //Route 1: creating a user using post localhost:5000/api/auth/createuser. Sign up
 router.post('/createuser', [
-
-
     // validator syntax 
     body('name', 'enter again').isLength({ min: 5 }),
     body('email', 'enter again').isEmail(),
