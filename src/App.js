@@ -12,7 +12,7 @@ import NoteState from './context/note/noteState';
 
 function App() {
   return (
-    <div >      
+    <div >
       <NoteState> {/* every component inside NoteState can access NoteState's state values */}
         <Router>
           <Navbar />
