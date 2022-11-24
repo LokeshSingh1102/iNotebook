@@ -23,12 +23,17 @@ const NoteState = (props) => {
     const addNote = async (newNote) => {
         console.log("note added");
 
-        const response = await fetch(`${host}/api/notes/fetchuser`, {
-            method: 'GET',
+        const response = await fetch(`${host}/api/notes/addnotes`, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjM3MTU2YzA3MWZlNDM2ODE1MzI5NGU2In0sImlhdCI6MTY2ODQzNzg1OH0.zWmh5-DUM2Z8bFE9Wl3dm0wmtZu02XGotWS23o_MSLA'
-            }
+            },
+            body: JSON.stringify({
+                "title": newNote.title,
+                "description": newNote.description,
+                "tag": "begining"
+            })
         })
         const result = await response.json()
         console.log(result);
@@ -37,8 +42,19 @@ const NoteState = (props) => {
         // concat returns the array whereas push updates the array . So push will not work here because the updation is the work for setNotes
         // setNotes(notes.push(note1));
     }
-    const deleteNote = (id) => {
+    const deleteNote = async (id) => {
         console.log("delete", id);
+
+        const response = await fetch(`${host}/api/notes/deletenotes/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjM3MTU2YzA3MWZlNDM2ODE1MzI5NGU2In0sImlhdCI6MTY2ODQzNzg1OH0.zWmh5-DUM2Z8bFE9Wl3dm0wmtZu02XGotWS23o_MSLA'
+            }
+        })
+        const result = await response.json()
+        console.log(result);
+
         const newNote = notes.filter((note) => { return note._id !== id })
         setNotes(newNote);
     }
