@@ -21,8 +21,8 @@ const AddNote = () => {
         // to make the input area empty after submitting 
         console.log(title.value);
         console.log(description.value);
-        title.value = ""
-        description.value = ""
+        setNotes({ title: "", description: "", tag: "" })
+
     }
 
     // this function will take the input and update the notes state 
@@ -36,13 +36,13 @@ const AddNote = () => {
             <form>
                 <div className="mb-3">
                     <label htmlFor="title" className="form-label">Title</label>
-                    <input type="text" className="form-control" id="title" name='title' aria-describedby="emailHelp" onChange={onchamge} />
+                    <input type="text" className="form-control" id="title" name='title' aria-describedby="emailHelp" onChange={onchamge} value={notes.title} />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="description" className="form-label">description</label>
-                    <input type="text" className="form-control" id="description" name='description' onChange={onchamge} />
+                    <input type="text" className="form-control" id="description" name='description' onChange={onchamge} value={notes.description} />
                 </div>
-                <button type="submit" className="btn btn-primary" onClick={handleclick}>Submit</button>
+                <button disabled={notes.title < 5 || notes.description < 5} type="submit" className="btn btn-primary" onClick={handleclick}>Submit</button>
             </form>
         </div>
     )

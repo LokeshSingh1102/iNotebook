@@ -9,7 +9,7 @@ const Note = () => {
 
     // after updating there has been am error notes.map was not working so,need to convert notes object to Array then used map function in arr 
     let arr = Array.from(notes)
-    
+
     useEffect(() => {
         getNote()
         // eslint-disable-next-line
@@ -25,7 +25,7 @@ const Note = () => {
         console.log("updating note", enote);
         updateNote(enote)
         refClose.current.click();
-        
+
     }
 
     const onchamge = (e) => {
@@ -67,7 +67,7 @@ const Note = () => {
                         </div>
                         <div className="modal-footer">
                             <button ref={refClose} type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary" onClick={handleclick}>Save changes</button>
+                            <button disabled={enote.etitle < 5 || enote.edescription < 5} type="button" className="btn btn-primary" onClick={handleclick}>Save changes</button>
                         </div>
                     </div>
                 </div>
