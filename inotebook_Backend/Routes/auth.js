@@ -29,11 +29,11 @@ router.post('/createuser', [
         // Fuser.save()
         // res.send(req.body)
         // OR
-
+        let success = false;
         try {
-            let users = await Users.findOne({ email: req.body.email })
+            let users = await Users.findOne({email: req.body.email })
             if (users) {
-                return res.status(400).json({ err: "Sorry a user with this email already exits" })
+                return res.status(400).json({success, err: "Sorry a user with this email already exits" })
             }
 
             // hashing the passsword to avoid hackers 
@@ -55,7 +55,8 @@ router.post('/createuser', [
                 }
             }
             const token = jwt.sign(data, JWT_SECRET);
-            res.json({ token: token });
+            success = true;
+            res.json({success, token: token });
 
             // res.json(users);
 
@@ -76,6 +77,7 @@ router.post('/login', [
 ],
     async (req, res) => {
         const errors = validationResult(req);
+        let success = false;
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
@@ -84,13 +86,13 @@ router.post('/login', [
         try {
             const user = await Users.findOne({ email: email })
             if (!user) {
-                return res.status(400).json("enter correct credentials")
+                return res.status(400).json({success, error:"enter correct credentials"})
             }
 
             // comparing password with user entered password 
             const comparePassword = await bcrypt.compare(password, user.password)
             if (!comparePassword) {
-                return res.status(400).json("enter correct credentials")
+                return res.status(400).json({success, error:"enter correct credentials"})
             }
 
             const payload = {
@@ -100,7 +102,8 @@ router.post('/login', [
             }
 
             const authtoken = jwt.sign(payload, JWT_SECRET)
-            res.json({ authtoken: authtoken });
+            success = true;
+            res.json({ success, authtoken: authtoken });
 
         } catch (error) {
             console.error(error.message)

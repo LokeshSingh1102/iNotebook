@@ -11,7 +11,7 @@ const NoteState = (props) => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjM3MTU2YzA3MWZlNDM2ODE1MzI5NGU2In0sImlhdCI6MTY2ODQzNzg1OH0.zWmh5-DUM2Z8bFE9Wl3dm0wmtZu02XGotWS23o_MSLA'
+                'auth-token': localStorage.getItem('auth')
             }
         })
         const result = await response.json()
@@ -74,8 +74,8 @@ const NoteState = (props) => {
         })
         const result = await response.json()
         let note = JSON.parse(JSON.stringify(result));
-        for(let i = 0; i<notes.length;i++){
-            if(notes._id===newNote._id){
+        for (let i = 0; i < notes.length; i++) {
+            if (notes._id === newNote._id) {
                 note[i].title = newNote.etitle;
                 note[i].description = newNote.edescription;
                 break;
